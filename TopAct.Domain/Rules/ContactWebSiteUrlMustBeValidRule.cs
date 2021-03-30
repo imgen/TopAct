@@ -3,11 +3,11 @@ using TopAct.Domain.Entities;
 
 namespace TopAct.Domain.Rules
 {
-    public class UrlMustBeValidRule : IBusinessRule
+    public class ContactWebSiteUrlMustBeValidRule : IBusinessRule
     {
         private readonly Contact _contact;
 
-        public UrlMustBeValidRule(Contact contact)
+        public ContactWebSiteUrlMustBeValidRule(Contact contact)
         {
             _contact = contact;
         }

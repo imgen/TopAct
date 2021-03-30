@@ -15,9 +15,9 @@ namespace TopAct.Domain.Rules
 
         public bool IsBroken()
         {
-            return string.IsNullOrWhiteSpace(_phone.PhoneNumber) ||
-                _phone.PhoneNumber.Length != 8 ||
-                !_phone.PhoneNumber.All(char.IsDigit);
+            return string.IsNullOrWhiteSpace(_phone.PhoneNo) ||
+                _phone.PhoneNo.Length != 8 ||
+                !_phone.PhoneNo.All(char.IsDigit);
         }
     }
 }

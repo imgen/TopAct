@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using TopAct.Domain.Rules;
 
 namespace TopAct.Domain.Entities
 {
@@ -18,9 +20,9 @@ namespace TopAct.Domain.Entities
             IList<Tag> tags,
             IList<CustomField> customFields)
         {
-            Id = id ?? throw new ArgumentNullException(nameof(id));
-            FirstName = firstName ?? throw new ArgumentNullException(nameof(firstName));
-            LastName = lastName ?? throw new ArgumentNullException(nameof(lastName));
+            Id = id;
+            FirstName = firstName;
+            LastName = lastName;
             OrganisationName = organisationName;
             WebsiteUrl = websiteUrl;
             Notes = notes;
@@ -30,6 +32,10 @@ namespace TopAct.Domain.Entities
             Categories = categories ?? new List<Category>();
             Tags = tags ?? new List<Tag>();
             CustomFields = customFields ?? new List<CustomField>();
+
+            CheckRule(new ContactNameMustBeFilledRule(this));
+            CheckRule(new ContactNotesMustBelow200CharsRule(this));
+            CheckRule(new ContactWebSiteUrlMustBeValidRule(this));
         }
 
         public ContactId Id { get; private set; }
@@ -53,24 +59,25 @@ namespace TopAct.Domain.Entities
             string organisationName,
             string websiteUrl,
             string notes,
-            IList<Phone> phones,
-            IList<Address> addresses,
-            IList<Email> emails,
-            IList<Category> categories,
-            IList<Tag> tags,
+            IList<string> phones,
+            IList<string> addresses,
+            IList<string> emails,
+            IList<string> categories,
+            IList<string> tags,
             IList<CustomField> customFields)
         {
-            return new Contact(new ContactId(Guid.NewGuid()),
+            return new Contact(
+                new ContactId(Guid.NewGuid()),
                 firstName,
                 lastName,
                 organisationName,
                 websiteUrl,
                 notes,
-                phones,
-                addresses,
-                emails,
-                categories,
-                tags,
+                phones?.Select(x => new Phone(x)).ToList(),
+                addresses?.Select(x => new Address(x)).ToList(),
+                emails?.Select(x => new Email(x)).ToList(),
+                categories?.Select(x => new Category(x)).ToList(),
+                tags?.Select(x => new Tag(x)).ToList(),
                 customFields
             );
         }
