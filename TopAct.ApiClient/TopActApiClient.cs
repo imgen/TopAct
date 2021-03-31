@@ -6,7 +6,8 @@ namespace TopAct.ApiClient
 {
     public class TopActApiClient
     {
-        public static async Task<HttpClient> BuildHttpClient(string identityServerUrl,
+        public static async Task<HttpClient> BuildHttpClient(
+            string identityServerUrl,
             string clientId,
             string apiSecret,
             string scope
@@ -19,14 +20,16 @@ namespace TopAct.ApiClient
                 throw new IdentityServerException(discoveryResponse.Error);
             }
 
-            var tokenResponse = await client.RequestClientCredentialsTokenAsync(new ClientCredentialsTokenRequest
-            {
-                Address = discoveryResponse.TokenEndpoint,
+            var tokenResponse = await client.RequestClientCredentialsTokenAsync(
+                    new ClientCredentialsTokenRequest
+                    {
+                        Address = discoveryResponse.TokenEndpoint,
 
-                ClientId = clientId,
-                ClientSecret = apiSecret,
-                Scope = scope
-            });
+                        ClientId = clientId,
+                        ClientSecret = apiSecret,
+                        Scope = scope
+                    }
+                );
 
             if (tokenResponse.IsError)
             {

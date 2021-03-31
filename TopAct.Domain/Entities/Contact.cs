@@ -7,7 +7,7 @@ namespace TopAct.Domain.Entities
 {
     public class Contact : Entity, IAggregateRoot
     {
-        private Contact(ContactId id,
+        internal Contact(ContactId id,
             string firstName,
             string lastName,
             string organisationName,
