@@ -1,0 +1,100 @@
+<div class="top-row pl-4 navbar navbar-dark">
+    <a class="navbar-brand" href="">TopAct.Blazor</a>
+    <button class="navbar-toggler" @onclick="ToggleNavMenu">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+</div>
+
+<div>
+    <ul class="nav flex-column">
+        <li class="nav-item px-3">
+            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Syncfusion Blazor Samples
+            </NavLink>
+        </li>
+    </ul>
+    <div class="separator"></div>
+    <div class="scroller">
+        <ul class="nav flex-column">
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="datagrid-features">
+                    <span class="syncfusion-blazor-icons syncfusion-blazor-icon-datagrid" aria-hidden="true"></span>DataGrid
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="multiselectdropdown-features">
+                    <span class="syncfusion-blazor-icons syncfusion-blazor-icon-multiselectdropdown" aria-hidden="true"></span>MultiSelect Dropdown
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="card-features">
+                    <span class="syncfusion-blazor-icons syncfusion-blazor-icon-card" aria-hidden="true"></span>Card
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="numerictextbox-features">
+                    <span class="syncfusion-blazor-icons syncfusion-blazor-icon-numerictextbox" aria-hidden="true"></span>Numeric TextBox
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="progressbutton-features">
+                    <span class="syncfusion-blazor-icons syncfusion-blazor-icon-progressbutton" aria-hidden="true"></span>Progress Button
+                </NavLink>
+            </li>
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="querybuilder-features">
+                    <span class="syncfusion-blazor-icons syncfusion-blazor-icon-querybuilder" aria-hidden="true"></span>Query Builder
+                </NavLink>
+            </li>
+
+            <li class="nav-item px-3">
+                <NavLink class="nav-link" href="contacts">
+                    <span class="syncfusion-blazor-icons syncfusion-blazor-icon-querybuilder" aria-hidden="true"></span>Contacts
+                </NavLink>
+            </li>
+
+        </ul>
+    </div>
+</div>
+<style>
+    .scroller {
+        height: calc(100vh - 160px) !important;
+        overflow-y: auto;
+        width: 287px;
+    }
+
+        .scroller::-webkit-scrollbar, scrollbar-thumb
+        .scroller::-webkit-scrollbar-thumb {
+            width: 8px;
+            height: 110px;
+            border-radius: 4px;
+            position: center;
+        }
+
+        .scroller::-webkit-scrollbar-thumb {
+            box-shadow: inset 0 0 0 10px #313C75;
+            border-radius: 4px;
+        }
+
+        .scroller::-webkit-scrollbar-track {
+            width: 28px;
+        }
+
+    .separator {
+        border: 1px solid #FFFFFF;
+        opacity: 0.14;
+        width: 247px;
+        margin: 1rem;
+        margin-top: 0px;
+    }
+</style>
+@code {
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+}
