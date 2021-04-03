@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Collections.Generic;
+using System.Linq;
 using TopAct.Domain.Entities;
 using TopAct.Infrastructure.Dal;
 using TopAct.Infrastructure.Dal.Entities;
@@ -21,6 +22,14 @@ namespace TopAct.Domain.Repositories
             collection.Insert(contact.ToDal());
         }
 
+        public void AddAll(IList<Contact> contacts)
+        {
+            using var db = _dbContext.GetDatabase();
+            var collection = db.GetCollection<DalContact>();
+            var dalContacts = contacts.Select(x => x.ToDal()).ToArray();
+            collection.InsertBulk(dalContacts);
+        }
+
         public Contact GetById(ContactId contactId)
         {
             using var db = _dbContext.GetDatabase();
@@ -30,6 +39,16 @@ namespace TopAct.Domain.Repositories
                 .Where(x => x.Id == contactId.Value)
                 .FirstOrDefault()
                 .ToDomain();
+        }
+
+        public IList<Contact> GetAll()
+        {
+            using var db = _dbContext.GetDatabase();
+            var collection = db.GetCollection<DalContact>();
+            return collection.Query()
+                .ToArray()
+                .Select(x => x.ToDomain())
+                .ToList();
         }
     }
 }

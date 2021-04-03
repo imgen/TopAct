@@ -15,8 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TopAct.Domain", "TopAct.Dom
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TopAct.Infrastructure", "TopAct.Infrastructure\TopAct.Infrastructure.csproj", "{B0A19452-E4FF-446A-AE22-52D3C57081DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TopAct.Blazor", "TopAct.Blazor\TopAct.Blazor.csproj", "{4DFA9E3E-60FA-4D1F-BBB0-C81963A5BBCF}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,10 +45,6 @@ Global
 		{B0A19452-E4FF-446A-AE22-52D3C57081DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B0A19452-E4FF-446A-AE22-52D3C57081DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B0A19452-E4FF-446A-AE22-52D3C57081DB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4DFA9E3E-60FA-4D1F-BBB0-C81963A5BBCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4DFA9E3E-60FA-4D1F-BBB0-C81963A5BBCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4DFA9E3E-60FA-4D1F-BBB0-C81963A5BBCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4DFA9E3E-60FA-4D1F-BBB0-C81963A5BBCF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

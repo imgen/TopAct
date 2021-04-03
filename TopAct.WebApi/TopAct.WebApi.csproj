@@ -13,6 +13,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TopAct.Common\TopAct.Common.csproj" />
+    <ProjectReference Include="..\TopAct.Domain\TopAct.Domain.csproj" />
+    <ProjectReference Include="..\TopAct.Infrastructure\TopAct.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

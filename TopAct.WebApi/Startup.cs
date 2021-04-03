@@ -44,19 +44,12 @@ namespace TopAct.WebApi
                     };
                 });
 
-            //services.AddAuthorization();
-            //services.AddAuthorization(options =>
-            //    {
-            //        options.AddPolicy("ApiScope", policy =>
-            //        {
-            //            policy.RequireAuthenticatedUser();
-            //            policy.RequireClaim("scope", ApiScope);
-            //        });
-            //    });
             services.AddSwaggerGen(c =>
                 {
                     c.SwaggerDoc("v1", new OpenApiInfo { Title = "TopAct.WebApi", Version = "v1" });
                 });
+
+            services.AddTopActServices(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
