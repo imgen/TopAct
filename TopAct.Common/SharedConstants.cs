@@ -7,6 +7,7 @@
         public const string ApiScope = "api";
         public const string IdentityServerUrl = "https://localhost:5001";
         public const string AuthenticationSchemeName = "Bearer";
+
         public const string DefaultDbFilePath = @"C:\db\topact.db";
     }
 }

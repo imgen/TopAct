@@ -2,6 +2,7 @@
 // Licensed under the Apache License, Version 2.0. See LICENSE in the project root for license information.
 
 
+using IdentityServer4;
 using IdentityServer4.Models;
 using System.Collections.Generic;
 using TopAct.Common;
@@ -35,7 +36,17 @@ namespace TopAct.WebApi
                     },
 
                     // scopes that client has access to
-                    AllowedScopes = { SharedConstants.ApiScope }
+                    AllowedScopes = {
+                        SharedConstants.ApiScope,
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile
+                    },
+
+                    RedirectUris = new []
+                    {
+                        "https://localhost:5001/swagger/oauth2-redirect.html"
+                    },
+                    RequirePkce = true
                 }
             };
     }

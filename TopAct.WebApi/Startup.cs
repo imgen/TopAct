@@ -1,10 +1,16 @@
+using IdentityServer4.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using TopAct.Common;
 using static TopAct.Common.SharedConstants;
 
 namespace TopAct.WebApi
@@ -47,6 +53,45 @@ namespace TopAct.WebApi
             services.AddSwaggerGen(c =>
                 {
                     c.SwaggerDoc("v1", new OpenApiInfo { Title = "TopAct.WebApi", Version = "v1" });
+
+                    c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                    {
+                        BearerFormat = "JWT",
+                        Type = SecuritySchemeType.OAuth2,
+                        Scheme = "Bearer",
+                        OpenIdConnectUrl = new Uri($".well-known/openid-configuration", UriKind.Relative),
+                        Flows = new OpenApiOAuthFlows
+                        {
+                            ClientCredentials = new OpenApiOAuthFlow
+                            {
+                                AuthorizationUrl = new Uri("/connect/authorize", UriKind.Relative),
+                                TokenUrl = new Uri("/connect/token", UriKind.Relative),
+                                Scopes = new Dictionary<string, string>
+                                {
+                                    [SharedConstants.ApiScope] = "Access api"
+                                }
+                            },
+                        },
+                        In = ParameterLocation.Header,
+                        Name = "Authorization"
+                    });
+
+                    var oauthScheme = new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        },
+                        Scheme = "oauth2",
+                        Name = "Bearer",
+                        In = ParameterLocation.Header
+                    };
+
+                    c.AddSecurityRequirement(new OpenApiSecurityRequirement()
+                    {
+                        { oauthScheme, new List<string>() }
+                    });
                 });
 
             services.AddTopActServices(Configuration);
@@ -59,7 +104,16 @@ namespace TopAct.WebApi
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TopAct.WebApi v1"));
+                app.UseSwaggerUI(c =>
+                {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "TopAct.WebApi v1");
+                    c.EnableDeepLinking();
+
+                    // Additional OAuth settings (See https://github.com/swagger-api/swagger-ui/blob/v3.10.0/docs/usage/oauth2.md)
+                    c.OAuthClientId(ClientId);
+                    c.OAuthClientSecret(ApiSecret);
+                    c.OAuthAppName("topact");
+                });
             }
 
             app.UseHttpsRedirection();
