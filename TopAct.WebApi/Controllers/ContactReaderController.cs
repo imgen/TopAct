@@ -1,14 +1,22 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using TopAct.Domain.Contracts;
 
 namespace TopAct.WebApi.Controllers
 {
     [ApiController]
-    [Route("Contact")]
+    [Route("api/Contact")]
     [Authorize]
-    public class ContactReaderController
+    public class ContactReaderController : Controller
     {
+        private readonly IContactsModule _contactsModule;
+
+        public ContactReaderController(IContactsModule contactsModule)
+        {
+            _contactsModule = contactsModule;
+        }
+
         [HttpGet]
         public IList<ContactDto> GetContacts()
         {

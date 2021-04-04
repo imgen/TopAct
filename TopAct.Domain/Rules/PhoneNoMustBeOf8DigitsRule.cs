@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using TopAct.Domain.Contracts;
 using TopAct.Domain.Entities;
 
 namespace TopAct.Domain.Rules

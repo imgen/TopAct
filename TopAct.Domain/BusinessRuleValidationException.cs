@@ -1,4 +1,5 @@
 ﻿using System;
+using TopAct.Domain.Contracts;
 
 namespace TopAct.Domain
 {

@@ -1,6 +1,7 @@
 ﻿using System;
 using TopAct.Domain.Entities;
 using TopAct.Common;
+using TopAct.Domain.Contracts;
 
 namespace TopAct.Domain.Rules
 {
@@ -13,7 +14,7 @@ namespace TopAct.Domain.Rules
             _email = email;
         }
 
-        public string Message => throw new NotImplementedException();
+        public string Message => $"The email {_email.EmailAddress} is not valid";
 
         public bool IsBroken()
         {

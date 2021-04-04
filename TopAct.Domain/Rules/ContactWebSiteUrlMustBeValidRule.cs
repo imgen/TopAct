@@ -1,4 +1,5 @@
 ﻿using System;
+using TopAct.Domain.Contracts;
 using TopAct.Domain.Entities;
 
 namespace TopAct.Domain.Rules

@@ -1,4 +1,4 @@
-﻿namespace TopAct.Domain
+﻿namespace TopAct.Domain.Contracts
 {
     public interface IBusinessRule
     {
