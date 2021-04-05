@@ -22,7 +22,7 @@ namespace TopAct.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<CreateContactResponseDto> CreateContact([FromBody] CreateOrEditContactRequestDto request)
+        public async Task<CreateOrGetContactResponseDto> CreateContact([FromBody] CreateOrEditContactRequestDto request)
         {
             var contactId = await _mediator.Send(new CreateContactCommand
                 (
@@ -39,7 +39,7 @@ namespace TopAct.WebApi.Controllers
                     request.CustomFields
                 )
             );
-            return new CreateContactResponseDto(
+            return new CreateOrGetContactResponseDto(
                     contactId,
                     request.FirstName,
                     request.LastName,

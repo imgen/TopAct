@@ -21,5 +21,20 @@ namespace TopAct.WebApi
                 return new NotFoundResult();
             }
         }
+
+        public static async Task<IActionResult>
+            ResultWithNotFoundHandlingAsync<TResult>(
+            Func<Task<TResult>> action)
+        {
+            try
+            {
+                var result = await action();
+                return new JsonResult(result);
+            }
+            catch (DataNotFoundException)
+            {
+                return new NotFoundResult();
+            }
+        }
     }
 }

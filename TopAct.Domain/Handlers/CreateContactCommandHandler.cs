@@ -17,7 +17,7 @@ namespace TopAct.Domain.Handlers
             _contactRepository = contactRepository;
         }
 
-        public async Task<Guid> Handle(CreateContactCommand command, CancellationToken cancellationToken)
+        public Task<Guid> Handle(CreateContactCommand command, CancellationToken cancellationToken)
         {
             var contact = Contact.CreateContact(
                 command.FirstName,
@@ -36,7 +36,7 @@ namespace TopAct.Domain.Handlers
             );
 
             _contactRepository.Add(contact);
-            return contact.Id.Value;
+            return Task.FromResult(contact.Id.Value);
         }
     }
 }

@@ -1,7 +1,12 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using TopAct.Domain.Commands;
+using TopAct.Domain.DtoModels;
+using static TopAct.WebApi.ControllerUtils;
 
 namespace TopAct.WebApi.Controllers
 {
@@ -18,13 +23,22 @@ namespace TopAct.WebApi.Controllers
         }
 
         [HttpGet]
-        public IList<ContactDto> GetContacts()
+        public Dictionary<string, IList<QueryContactsDto>> GetContacts([FromBody] QueryContactsRequestDto request)
         {
             return null;
         }
-    }
 
-    public record ContactDto(string FirstName, string LastName,
-        string OrganisationName,
-        string WebsiteUrl);
+        /// <summary>
+        /// Gets the details of a contact by id
+        /// </summary>
+        /// <param name="id">The id of the contact</param>
+        /// <returns>The contact</returns>
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetContact(Guid id)
+        {
+            return await ResultWithNotFoundHandlingAsync(
+                () => _mediator.Send(new GetContactCommand(id))
+            );
+        }
+    }
 }

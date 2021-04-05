@@ -17,7 +17,7 @@ namespace TopAct.Domain.DtoModels
         Dictionary<string, string> CustomFields
     );
 
-    public record CreateContactResponseDto(
+    public record CreateOrGetContactResponseDto(
         Guid Id,
         string FirstName,
         string LastName,
@@ -45,5 +45,22 @@ namespace TopAct.Domain.DtoModels
         IList<string> Categories,
         IList<string> Tags,
         Dictionary<string, string> CustomFields
+    );
+
+    public record QueryContactsRequestDto(
+        string Name,
+        string Phone,
+        string Email,
+        string WebsiteUrl,
+        string Notes,
+        string[] Categories
+    );
+
+    public record QueryContactsDto(
+        string FirstName,
+        string LastName,
+        string OrganisationName,
+        string WebsiteUrl,
+        string Notes
     );
 }

@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using TopAct.Domain;
 using TopAct.Domain.Contracts;
 using TopAct.Domain.Handlers;
 using TopAct.Domain.Repositories;
@@ -18,7 +17,6 @@ namespace TopAct.WebApi
             var dbFilePath = configuration.GetValue("DbFilePath", DefaultDbFilePath);
             services.AddTransient(_ => new DbContext(dbFilePath));
             services.AddTransient<IContactRepository, ContactRepository>();
-            services.AddTransient<IContactsModule, ContactsModule>();
             services.AddMediatR(typeof(CreateContactCommandHandler));
         }
     }
