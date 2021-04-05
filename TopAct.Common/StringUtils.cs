@@ -1,13 +1,15 @@
-﻿using System.Text.RegularExpressions;
-
-namespace TopAct.Common
+﻿namespace TopAct.Common
 {
     public static class StringUtils
     {
-        public static bool IsValidEmailAddress(this string s)
+        public static bool IsNullOrWhiteSpace(this string s)
         {
-            var regex = new Regex(@"[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?");
-            return regex.IsMatch(s);
+            return string.IsNullOrWhiteSpace(s);
+        }
+
+        public static bool IsNullOrEmpty(this string s)
+        {
+            return string.IsNullOrEmpty(s);
         }
     }
 }

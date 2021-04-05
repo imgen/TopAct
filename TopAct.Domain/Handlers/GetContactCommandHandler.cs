@@ -25,7 +25,7 @@ namespace TopAct.Domain.Handlers
             var contact = _contactRepository.GetById(new ContactId(contactId));
             if (contact == null)
             {
-                throw new DataNotFoundException($"Cannot find the contact with id {contactId}");
+                throw new ContactNotFoundException($"Cannot find the contact with id {contactId}");
             }
 
             return Task.FromResult(

@@ -9,6 +9,6 @@ namespace TopAct.Domain.Commands
         string Email,
         string WebsiteUrl,
         string Notes,
-        string[] Categories) :
-        CommandBase<IList<QueryContactsDto>>;
+        string Category) :
+        CommandBase<IList<QueryContactsItemDto>>;
 }

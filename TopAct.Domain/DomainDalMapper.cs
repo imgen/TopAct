@@ -13,6 +13,7 @@ namespace TopAct.Domain
                 Id = contact.Id.Value,
                 FirstName = contact.FirstName,
                 LastName = contact.LastName,
+                FullName = contact.FullName,
                 OrganisationName = contact.OrganisationName,
                 WebsiteUrl = contact.WebsiteUrl,
                 Notes = contact.Notes,

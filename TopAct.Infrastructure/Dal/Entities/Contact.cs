@@ -8,6 +8,7 @@ namespace TopAct.Infrastructure.Dal.Entities
         public Guid Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string FullName { get; set; }
         public string OrganisationName { get; set; }
         public string WebsiteUrl { get; set; }
         public string Notes { get; set; }

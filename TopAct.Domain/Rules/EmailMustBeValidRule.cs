@@ -19,7 +19,7 @@ namespace TopAct.Domain.Rules
         public bool IsBroken()
         {
             return _email.EmailAddress is not null &&
-                !_email.EmailAddress.IsValidEmailAddress();
+                _email.EmailAddress.IsValidEmailAddress() is false;
         }
     }
 }

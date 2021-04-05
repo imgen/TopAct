@@ -53,14 +53,21 @@ namespace TopAct.Domain.DtoModels
         string Email,
         string WebsiteUrl,
         string Notes,
-        string[] Categories
+        string Category
     );
 
-    public record QueryContactsDto(
+    public record QueryContactsItemDto(
+        Guid Id,
         string FirstName,
         string LastName,
         string OrganisationName,
         string WebsiteUrl,
-        string Notes
+        string Notes,
+        IList<string> Tags
+    );
+
+    public record QueryContactsResponseDto(
+        Dictionary<Guid, QueryContactsItemDto> AllContacts,
+        Dictionary<string, IList<Guid>> TagMap
     );
 }

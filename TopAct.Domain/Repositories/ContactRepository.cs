@@ -1,8 +1,10 @@
 ﻿using LiteDB;
 using System.Collections.Generic;
 using System.Linq;
+using TopAct.Common;
 using TopAct.Domain.Contracts;
 using TopAct.Domain.Entities;
+using TopAct.Domain.Rules;
 using TopAct.Infrastructure.Dal;
 using DalContact = TopAct.Infrastructure.Dal.Entities.Contact;
 
@@ -43,11 +45,68 @@ namespace TopAct.Domain.Repositories
                 .ToDomain();
         }
 
-        public IList<Contact> GetAll()
+        public IList<Contact> GetAll(
+            string name,
+            string phone,
+            string email,
+            string websiteUrl,
+            string notes,
+            string category)
         {
             using var db = _dbContext.GetDatabase();
             var collection = db.GetCollection<DalContact>();
-            return collection.Query()
+            var query = collection.Query();
+            if (name.IsNullOrWhiteSpace() is false)
+            {
+                collection.EnsureIndex(x => x.FirstName);
+                collection.EnsureIndex(x => x.LastName);
+                collection.EnsureIndex(x => x.FullName);
+                query = query.Where(x =>
+                    x.FirstName.Contains(name) ||
+                    x.LastName.Contains(name) ||
+                    x.FullName.Contains(name)
+                );
+            }
+
+            if (phone.IsNullOrWhiteSpace() is false &&
+                phone.IsValidPhoneNo())
+            {
+                collection.EnsureIndex(x => x.Phones);
+                query = query.Where(x => x.Phones.Contains(phone));
+            }
+
+            if (email.IsNullOrWhiteSpace() is false &&
+                email.IsValidEmailAddress())
+            {
+                collection.EnsureIndex(x => x.Emails);
+                query = query.Where(x => x.Emails.Contains(email));
+            }
+
+            if (websiteUrl.IsNullOrWhiteSpace() is false)
+            {
+                collection.EnsureIndex(x => x.WebsiteUrl);
+                query = query.Where(x =>
+                    x.WebsiteUrl.Contains(websiteUrl)
+                );
+            }
+
+            if (notes.IsNullOrWhiteSpace() is false)
+            {
+                collection.EnsureIndex(x => x.Notes);
+                query = query.Where(x =>
+                    x.Notes.Contains(notes)
+                );
+            }
+
+            if (category.IsNullOrWhiteSpace() is false)
+            {
+                collection.EnsureIndex(x => x.Categories);
+                query = query.Where(x =>
+                    x.Categories.Contains(category)
+                );
+            }
+
+            return query
                 .ToArray()
                 .Select(x => x.ToDomain())
                 .ToList();

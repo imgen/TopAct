@@ -12,13 +12,13 @@ namespace TopAct.Domain.Rules
         {
             _phone = phone;
         }
+
         public string Message => "The phone number must be of 8 digits";
 
         public bool IsBroken()
         {
-            return string.IsNullOrWhiteSpace(_phone.PhoneNo) ||
-                _phone.PhoneNo.Length != 8 ||
-                !_phone.PhoneNo.All(char.IsDigit);
+            return string.IsNullOrWhiteSpace(_phone.PhoneNo) is false &&
+                _phone.PhoneNo.IsValidPhoneNo() is false;
         }
     }
 }

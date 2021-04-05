@@ -8,6 +8,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using TopAct.Common;
+using TopAct.Infrastructure.Dal;
 using static TopAct.Common.SharedConstants;
 
 namespace TopAct.WebApi
@@ -17,6 +18,9 @@ namespace TopAct.WebApi
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            var dbContext = new DbContext(configuration.GetDbFilePath());
+            var migrator = new Migrator(dbContext);
+            migrator.Migrate();
         }
 
         public IConfiguration Configuration { get; }

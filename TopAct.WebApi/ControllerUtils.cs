@@ -16,7 +16,7 @@ namespace TopAct.WebApi
                 await action();
                 return new OkResult();
             }
-            catch (DataNotFoundException)
+            catch (ContactNotFoundException)
             {
                 return new NotFoundResult();
             }
@@ -31,7 +31,7 @@ namespace TopAct.WebApi
                 var result = await action();
                 return new JsonResult(result);
             }
-            catch (DataNotFoundException)
+            catch (ContactNotFoundException)
             {
                 return new NotFoundResult();
             }
