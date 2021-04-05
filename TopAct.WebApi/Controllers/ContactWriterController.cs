@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using TopAct.Domain.Commands;
-using TopAct.Domain.Contracts;
 using TopAct.Domain.DtoModels;
 
 namespace TopAct.WebApi.Controllers
@@ -13,17 +13,17 @@ namespace TopAct.WebApi.Controllers
     [Authorize]
     public class ContactWriterController : Controller
     {
-        private IContactsModule _contactsModule;
+        private readonly IMediator _mediator;
 
-        public ContactWriterController(IContactsModule contactsModule)
+        public ContactWriterController(IMediator mediator)
         {
-            _contactsModule = contactsModule;
+            _mediator = mediator;
         }
 
         [HttpPost]
         public async Task<CreateContactResponseDto> CreateContact([FromBody] CreateContactRequestDto request)
         {
-            var contactId = await _contactsModule.ExecuteCommandAsync(new CreateContactCommand
+            var contactId = await _mediator.Send(new CreateContactCommand
                 (
                     request.FirstName,
                     request.LastName,
@@ -45,12 +45,12 @@ namespace TopAct.WebApi.Controllers
                     request.OrganisationName,
                     request.WebsiteUrl,
                     request.Notes,
-                    request.Phones,
-                    request.Addresses,
-                    request.Emails,
-                    request.Categories,
-                    request.Tags,
-                    request.CustomFields
+                    request.Phones ?? Array.Empty<string>(),
+                    request.Addresses ?? Array.Empty<string>(),
+                    request.Emails ?? Array.Empty<string>(),
+                    request.Categories ?? Array.Empty<string>(),
+                    request.Tags ?? Array.Empty<string>(),
+                    request.CustomFields ?? new()
                 );
         }
 

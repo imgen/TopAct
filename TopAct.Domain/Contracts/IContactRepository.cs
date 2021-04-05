@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using TopAct.Domain.Entities;
 
-namespace TopAct.Domain.Repositories
+namespace TopAct.Domain.Contracts
 {
     public interface IContactRepository
     {

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using TopAct.Domain.Contracts;
 using TopAct.Domain.Entities;
 using TopAct.Infrastructure.Dal;
 using TopAct.Infrastructure.Dal.Entities;
