@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace TopAct.Infrastructure.Dal.Entities
 {
-    public class DalContact
+    public class Contact
     {
         public Guid Id { get; set; }
         public string FirstName { get; set; }

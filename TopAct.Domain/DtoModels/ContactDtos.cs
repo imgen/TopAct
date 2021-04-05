@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace TopAct.Domain.DtoModels
 {
-    public record CreateContactRequestDto(
+    public record CreateOrEditContactRequestDto(
         string FirstName,
         string LastName,
         string OrganisationName,
@@ -33,7 +33,7 @@ namespace TopAct.Domain.DtoModels
     );
 
     public record EditContactRequestDto(
-        string Id,
+        Guid Id,
         string FirstName,
         string LastName,
         string OrganisationName,

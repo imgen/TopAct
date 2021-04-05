@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using TopAct.Domain.Entities;
-using TopAct.Infrastructure.Dal.Entities;
+using DalContact = TopAct.Infrastructure.Dal.Entities.Contact;
 
 namespace TopAct.Domain
 {

@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using LiteDB;
+using System.Collections.Generic;
 using System.Linq;
 using TopAct.Domain.Contracts;
 using TopAct.Domain.Entities;
 using TopAct.Infrastructure.Dal;
-using TopAct.Infrastructure.Dal.Entities;
+using DalContact = TopAct.Infrastructure.Dal.Entities.Contact;
 
 namespace TopAct.Domain.Repositories
 {
@@ -50,6 +51,21 @@ namespace TopAct.Domain.Repositories
                 .ToArray()
                 .Select(x => x.ToDomain())
                 .ToList();
+        }
+
+        public void Save(Contact contact)
+        {
+            using var db = _dbContext.GetDatabase();
+            var collection = db.GetCollection<DalContact>();
+            collection.Upsert(contact.ToDal());
+        }
+
+        public void Delete(Contact contact)
+        {
+            using var db = _dbContext.GetDatabase();
+            var collection = db.GetCollection<DalContact>();
+            var id = new BsonValue(contact.Id.Value);
+            collection.Delete(id);
         }
     }
 }

@@ -9,5 +9,7 @@ namespace TopAct.Domain.Contracts
         void AddAll(IList<Contact> contacts);
         Contact GetById(ContactId contactId);
         IList<Contact> GetAll();
+        void Save(Contact contact);
+        void Delete(Contact contact);
     }
 }

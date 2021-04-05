@@ -21,22 +21,19 @@ namespace TopAct.Domain.Entities
             IList<Tag> tags,
             IList<CustomField> customFields)
         {
-            Id = id;
-            FirstName = firstName;
-            LastName = lastName;
-            OrganisationName = organisationName;
-            WebsiteUrl = websiteUrl;
-            Notes = notes;
-            Phones = phones ?? new List<Phone>();
-            Addresses = addresses ?? new List<Address>();
-            Emails = emails ?? new List<Email>();
-            Categories = categories ?? new List<Category>();
-            Tags = tags ?? new List<Tag>();
-            CustomFields = customFields ?? new List<CustomField>();
-
-            CheckRule(new ContactNameMustBeFilledRule(this));
-            CheckRule(new ContactNotesMustBelow200CharsRule(this));
-            CheckRule(new ContactWebSiteUrlMustBeValidRule(this));
+            CreateOrUpdate(id,
+                firstName,
+                lastName,
+                organisationName,
+                websiteUrl,
+                notes,
+                phones,
+                addresses,
+                emails,
+                categories,
+                tags,
+                customFields
+            );
         }
 
         public ContactId Id { get; private set; }
@@ -55,7 +52,8 @@ namespace TopAct.Domain.Entities
 
         public string FullName => $"{FirstName} {LastName}";
 
-        public static Contact CreateContact(string firstName,
+        public static Contact CreateContact(
+            string firstName,
             string lastName,
             string organisationName,
             string websiteUrl,
@@ -81,6 +79,65 @@ namespace TopAct.Domain.Entities
                 tags?.Select(x => new Tag(x)).ToList(),
                 customFields
             );
+        }
+
+        public void EditContact(
+            string firstName,
+            string lastName,
+            string organisationName,
+            string websiteUrl,
+            string notes,
+            IList<string> phones,
+            IList<string> addresses,
+            IList<string> emails,
+            IList<string> categories,
+            IList<string> tags,
+            IList<CustomField> customFields)
+        {
+            CreateOrUpdate(Id,
+                firstName,
+                lastName,
+                organisationName,
+                websiteUrl,
+                notes,
+                phones?.Select(x => new Phone(x)).ToList(),
+                addresses?.Select(x => new Address(x)).ToList(),
+                emails?.Select(x => new Email(x)).ToList(),
+                categories?.Select(x => new Category(x)).ToList(),
+                tags?.Select(x => new Tag(x)).ToList(),
+                customFields
+            );
+        }
+
+        private void CreateOrUpdate(ContactId id,
+            string firstName,
+            string lastName,
+            string organisationName,
+            string websiteUrl,
+            string notes,
+            IList<Phone> phones,
+            IList<Address> addresses,
+            IList<Email> emails,
+            IList<Category> categories,
+            IList<Tag> tags,
+            IList<CustomField> customFields)
+        {
+            Id = id;
+            FirstName = firstName;
+            LastName = lastName;
+            OrganisationName = organisationName;
+            WebsiteUrl = websiteUrl;
+            Notes = notes;
+            Phones = phones ?? new List<Phone>();
+            Addresses = addresses ?? new List<Address>();
+            Emails = emails ?? new List<Email>();
+            Categories = categories ?? new List<Category>();
+            Tags = tags ?? new List<Tag>();
+            CustomFields = customFields ?? new List<CustomField>();
+
+            CheckRule(new ContactNameMustBeFilledRule(this));
+            CheckRule(new ContactNotesMustBelow200CharsRule(this));
+            CheckRule(new ContactWebSiteUrlMustBeValidRule(this));
         }
     }
 }

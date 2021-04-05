@@ -1,25 +1,32 @@
-﻿using System;
+﻿using MediatR;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using TopAct.Domain.Commands;
 using TopAct.Domain.Contracts;
 using TopAct.Domain.Entities;
+using TopAct.Domain.Exceptions;
 
 namespace TopAct.Domain.Handlers
 {
-    public class CreateContactCommandHandler : ICommandHandler<CreateContactCommand, Guid>
+    public class EditContactCommandHandler : ICommandHandler<EditContactCommand>
     {
         private readonly IContactRepository _contactRepository;
 
-        public CreateContactCommandHandler(IContactRepository contactRepository)
+        public EditContactCommandHandler(IContactRepository contactRepository)
         {
             _contactRepository = contactRepository;
         }
 
-        public async Task<Guid> Handle(CreateContactCommand command, CancellationToken cancellationToken)
+        public Task<Unit> Handle(EditContactCommand command, CancellationToken cancellationToken)
         {
-            var contact = Contact.CreateContact(
+            var contactId = command.ContactId;
+            var contact = _contactRepository.GetById(new ContactId(contactId));
+            if (contact == null)
+            {
+                throw new DataNotFoundException($"Cannot find the contact with id {contactId}");
+            }
+            contact.EditContact(
                 command.FirstName,
                 command.LastName,
                 command.OrganisationName,
@@ -35,8 +42,9 @@ namespace TopAct.Domain.Handlers
                     .ToList()
             );
 
-            _contactRepository.Add(contact);
-            return contact.Id.Value;
+            _contactRepository.Save(contact);
+
+            return Unit.Task;
         }
     }
 }

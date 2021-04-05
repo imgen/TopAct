@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
-using TopAct.Domain.Contracts;
 
 namespace TopAct.WebApi.Controllers
 {
@@ -10,24 +10,21 @@ namespace TopAct.WebApi.Controllers
     [Authorize]
     public class ContactReaderController : Controller
     {
-        private readonly IContactsModule _contactsModule;
+        private readonly IMediator _mediator;
 
-        public ContactReaderController(IContactsModule contactsModule)
+        public ContactReaderController(IMediator mediator)
         {
-            _contactsModule = contactsModule;
+            _mediator = mediator;
         }
 
         [HttpGet]
         public IList<ContactDto> GetContacts()
         {
-            return new[]
-            {
-                new ContactDto("Bill", "Shu"),
-                new ContactDto("Mark", "Cal"),
-                new ContactDto("Make", "Up")
-            };
+            return null;
         }
     }
 
-    public record ContactDto(string FirstName, string LastName);
+    public record ContactDto(string FirstName, string LastName,
+        string OrganisationName,
+        string WebsiteUrl);
 }

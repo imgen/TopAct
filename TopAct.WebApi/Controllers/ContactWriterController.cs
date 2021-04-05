@@ -5,6 +5,7 @@ using System;
 using System.Threading.Tasks;
 using TopAct.Domain.Commands;
 using TopAct.Domain.DtoModels;
+using static TopAct.WebApi.ControllerUtils;
 
 namespace TopAct.WebApi.Controllers
 {
@@ -21,7 +22,7 @@ namespace TopAct.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<CreateContactResponseDto> CreateContact([FromBody] CreateContactRequestDto request)
+        public async Task<CreateContactResponseDto> CreateContact([FromBody] CreateOrEditContactRequestDto request)
         {
             var contactId = await _mediator.Send(new CreateContactCommand
                 (
@@ -54,10 +55,37 @@ namespace TopAct.WebApi.Controllers
                 );
         }
 
-        [HttpPut]
-        public IActionResult EditContact([FromBody] EditContactRequestDto editContactRequest)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> EditContact(Guid id,
+            [FromBody] CreateOrEditContactRequestDto request)
         {
-            return Ok();
+            return await WithNotFoundHandlingAsync(
+                () =>
+                    _mediator.Send(new EditContactCommand
+                        (
+                            id,
+                            request.FirstName,
+                            request.LastName,
+                            request.OrganisationName,
+                            request.WebsiteUrl,
+                            request.Notes,
+                            request.Phones,
+                            request.Addresses,
+                            request.Emails,
+                            request.Categories,
+                            request.Tags,
+                            request.CustomFields
+                        )
+                )
+            );
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteContact(Guid id)
+        {
+            return await WithNotFoundHandlingAsync(
+                () => _mediator.Send(new DeleteContactCommand(id))
+            );
         }
     }
 }
