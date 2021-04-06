@@ -1,0 +1,301 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Contact",
+  "definitions": {
+    "ContactId": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/TypedIdValueBase"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false
+        }
+      ]
+    },
+    "TypedIdValueBase": {
+      "type": "object",
+      "x-abstract": true,
+      "additionalProperties": false,
+      "properties": {
+        "Value": {
+          "type": "string",
+          "format": "guid"
+        }
+      }
+    },
+    "Phone": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Entity"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "PhoneNo": {
+              "type": [
+                "null",
+                "string"
+              ]
+            },
+            "Type": {
+              "$ref": "#/definitions/PhoneType"
+            }
+          }
+        }
+      ]
+    },
+    "PhoneType": {
+      "type": "integer",
+      "description": "",
+      "x-enumNames": [
+        "Work",
+        "Mobile",
+        "Home"
+      ],
+      "enum": [
+        1,
+        2,
+        3
+      ]
+    },
+    "Entity": {
+      "type": "object",
+      "x-abstract": true,
+      "additionalProperties": false,
+      "properties": {
+        "DomainEvents": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/IDomainEvent"
+          }
+        }
+      }
+    },
+    "IDomainEvent": {
+      "type": "object",
+      "x-abstract": true,
+      "additionalProperties": false,
+      "properties": {
+        "Id": {
+          "type": "string",
+          "format": "guid"
+        },
+        "OccurredOn": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "Address": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Entity"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "AddressName": {
+              "type": [
+                "null",
+                "string"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "Email": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Entity"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "EmailAddress": {
+              "type": [
+                "null",
+                "string"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "Category": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Entity"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "CategoryName": {
+              "type": [
+                "null",
+                "string"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "Tag": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Entity"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "TagName": {
+              "type": [
+                "null",
+                "string"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "CustomField": {
+      "allOf": [
+        {
+          "$ref": "#/definitions/Entity"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "Key": {
+              "type": [
+                "null",
+                "string"
+              ]
+            },
+            "Value": {
+              "type": [
+                "null",
+                "string"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "$ref": "#/definitions/Entity"
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "Id",
+        "FirstName",
+        "LastName"
+      ],
+      "properties": {
+        "Id": {
+          "$ref": "#/definitions/ContactId"
+        },
+        "FirstName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "LastName": {
+          "type": "string",
+          "minLength": 1
+        },
+        "OrganisationName": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "WebsiteUrl": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "Notes": {
+          "type": [
+            "null",
+            "string"
+          ]
+        },
+        "Phones": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/Phone"
+          }
+        },
+        "Addresses": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/Address"
+          }
+        },
+        "Emails": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/Email"
+          }
+        },
+        "Categories": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/Category"
+          }
+        },
+        "Tags": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/Tag"
+          }
+        },
+        "CustomFields": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/CustomField"
+          }
+        },
+        "FullName": {
+          "type": [
+            "null",
+            "string"
+          ]
+        }
+      }
+    }
+  ]
+}
