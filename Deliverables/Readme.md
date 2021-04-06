@@ -46,4 +46,4 @@ To view it visually, one can use this awesome [Online Schema Viewer](https://nav
  ## Unit tests?
  Almost none. I have a test called `AuthenticationTests` which does test the authentication part. But that requires the project running. It just showcases I know how to write unit tests. 
  
- But the whole project is done in way that I think is quite testable. :(. I ran out of time. 
+ But the whole project is done in way that I think is quite testable. :(. It's just that I ran out of time. 
