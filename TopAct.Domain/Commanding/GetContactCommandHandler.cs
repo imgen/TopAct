@@ -1,12 +1,11 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using TopAct.Domain.Commands;
 using TopAct.Domain.Contracts;
 using TopAct.Domain.DtoModels;
 using TopAct.Domain.Entities;
 using TopAct.Domain.Exceptions;
 
-namespace TopAct.Domain.Handlers
+namespace TopAct.Domain.Commanding
 {
     public class GetContactCommandHandler : ICommandHandler<GetContactCommand, CreateOrGetContactResponseDto>
     {

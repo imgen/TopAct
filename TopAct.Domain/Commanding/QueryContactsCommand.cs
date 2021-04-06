@@ -1,7 +1,7 @@
 ﻿using TopAct.Domain.Contracts;
 using TopAct.Domain.DtoModels;
 
-namespace TopAct.Domain.Commands
+namespace TopAct.Domain.Commanding
 {
     public record QueryContactsCommand(string Name,
         string Phone,

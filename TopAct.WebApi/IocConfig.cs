@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TopAct.Domain.Contracts;
-using TopAct.Domain.Handlers;
+using TopAct.Domain.Commanding;
 using TopAct.Domain.Repositories;
 using TopAct.Infrastructure.Dal;
 

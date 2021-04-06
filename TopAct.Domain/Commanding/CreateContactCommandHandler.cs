@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using TopAct.Domain.Commands;
 using TopAct.Domain.Contracts;
 using TopAct.Domain.Entities;
 
-namespace TopAct.Domain.Handlers
+namespace TopAct.Domain.Commanding
 {
     public class CreateContactCommandHandler : ICommandHandler<CreateContactCommand, Guid>
     {

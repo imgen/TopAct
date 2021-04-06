@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
-using TopAct.Domain.Commands;
+using TopAct.Domain.Commanding;
 using TopAct.Domain.DtoModels;
 using static TopAct.WebApi.ControllerUtils;
 

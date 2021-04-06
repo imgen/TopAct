@@ -1,10 +1,9 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using TopAct.Domain.Commands;
 using TopAct.Domain.Contracts;
 using TopAct.Domain.DtoModels;
 
-namespace TopAct.Domain.Handlers
+namespace TopAct.Domain.Commanding
 {
     public class QueryContactsCommandHandler : ICommandHandler<QueryContactsCommand, QueryContactsResponseDto>
     {

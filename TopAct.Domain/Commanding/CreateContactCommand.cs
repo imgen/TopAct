@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using TopAct.Domain.Contracts;
 
-namespace TopAct.Domain.Commands
+namespace TopAct.Domain.Commanding
 {
-    public record EditContactCommand(
-        Guid ContactId,
+    public record CreateContactCommand(
         string FirstName,
         string LastName,
         string OrganisationName,
@@ -16,5 +15,5 @@ namespace TopAct.Domain.Commands
         IList<string> Emails,
         IList<string> Categories,
         IList<string> Tags,
-        Dictionary<string, string> CustomFields) : CommandBase;
+        Dictionary<string, string> CustomFields) : CommandBase<Guid>;
 }
