@@ -24,7 +24,7 @@ namespace TopAct.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<CreateOrGetContactResponseDto> CreateContact([FromBody] CreateOrEditContactRequestDto request)
+        public async Task<CreateOrGetContactResponseDto> CreateContactAsync([FromBody] CreateOrEditContactRequestDto request)
         {
             var contactId = await _mediator.Send(new CreateContactCommand
                 (
@@ -49,9 +49,9 @@ namespace TopAct.WebApi.Controllers
                     request.WebsiteUrl,
                     request.Notes,
                     request.Phones?
-                        .Select(x => new PhoneDto(x, x.FormatPhone()))
+                        .Select(x => new PhoneResponseDto(x.PhoneNo, x.PhoneNo.FormatPhoneNo(), x.Type))
                         .ToArray() ??
-                        Array.Empty<PhoneDto>(),
+                        Array.Empty<PhoneResponseDto>(),
                     request.Addresses ?? Array.Empty<string>(),
                     request.Emails ?? Array.Empty<string>(),
                     request.Categories ?? Array.Empty<string>(),
@@ -61,7 +61,7 @@ namespace TopAct.WebApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditContact(Guid id,
+        public async Task<IActionResult> EditContactAsync(Guid id,
             [FromBody] CreateOrEditContactRequestDto request)
         {
             return await WithNotFoundHandlingAsync(

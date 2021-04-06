@@ -16,7 +16,7 @@ namespace TopAct.Tests
                 ApiSecret,
                 ApiScope
             );
-            var response = await client.GetStringAsync("https://localhost:5001/Contact");
+            var response = await client.GetStringAsync("https://localhost:5001/api/Contact");
             response.Should().NotBeNullOrWhiteSpace();
         }
     }

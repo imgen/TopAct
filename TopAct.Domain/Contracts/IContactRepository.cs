@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using TopAct.Domain.Entities;
 
 namespace TopAct.Domain.Contracts
@@ -9,14 +10,16 @@ namespace TopAct.Domain.Contracts
         void AddAll(IList<Contact> contacts);
         Contact GetById(ContactId contactId);
         IList<Contact> GetAll(
-            string name,
-            string phone,
-            string email,
-            string websiteUrl,
-            string notes,
-            string category
+            string name = null,
+            string phone = null,
+            string email = null,
+            string websiteUrl = null,
+            string notes = null,
+            string category = null
         );
         void Save(Contact contact);
         void Delete(Contact contact);
+        IList<Contact> GetAllByIds(IList<Guid> contactIds);
+        void UpsertAll(IList<Contact> importedContacts);
     }
 }

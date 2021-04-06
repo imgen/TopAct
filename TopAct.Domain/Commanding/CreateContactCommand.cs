@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using TopAct.Domain.Contracts;
+using TopAct.Domain.DtoModels;
 
 namespace TopAct.Domain.Commanding
 {
@@ -10,7 +11,7 @@ namespace TopAct.Domain.Commanding
         string OrganisationName,
         string WebsiteUrl,
         string Notes,
-        IList<string> Phones,
+        IList<PhoneRequestDto> Phones,
         IList<string> Addresses,
         IList<string> Emails,
         IList<string> Categories,

@@ -16,6 +16,7 @@ namespace TopAct.WebApi
             var dbFilePath = configuration.GetDbFilePath();
             services.AddTransient(_ => new DbContext(dbFilePath));
             services.AddTransient<IContactRepository, ContactRepository>();
+            services.AddTransient<DbMigrator>();
             services.AddMediatR(typeof(CreateContactCommandHandler));
         }
     }

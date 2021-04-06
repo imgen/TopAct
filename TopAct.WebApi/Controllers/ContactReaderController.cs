@@ -22,21 +22,22 @@ namespace TopAct.WebApi.Controllers
         }
 
         [HttpGet]
-        public async Task<QueryContactsResponseDto> GetContacts(
+        public async Task<IActionResult> GetContactsAsync(
             [FromQuery] QueryContactsRequestDto request
         )
         {
-            return await _mediator.Send(
-                new QueryContactsCommand(
-                    request.Name,
-                    request.Phone,
-                    request.Email,
-                    request.WebsiteUrl,
-                    request.Notes,
-                    request.Category
+            return await ResultWithNotFoundHandlingAsync(
+                () => _mediator.Send(
+                    new QueryContactsCommand(
+                        request.Name,
+                        request.Phone,
+                        request.Email,
+                        request.WebsiteUrl,
+                        request.Notes,
+                        request.Category
+                    )
                 )
             );
-
         }
 
         /// <summary>
@@ -45,7 +46,7 @@ namespace TopAct.WebApi.Controllers
         /// <param name="id">The id of the contact</param>
         /// <returns>The contact</returns>
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetContact(Guid id)
+        public async Task<IActionResult> GetContactAsync(Guid id)
         {
             return await ResultWithNotFoundHandlingAsync(
                 () => _mediator.Send(new GetContactCommand(id))

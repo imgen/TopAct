@@ -13,7 +13,8 @@ namespace TopAct.Infrastructure.Dal.Entities
         public string WebsiteUrl { get; set; }
         public string Notes { get; set; }
 
-        public IList<string> Phones { get; set; }
+        public IList<Phone> Phones { get; set; }
+        public IList<string> PhoneNumbers { get; set; }
         public IList<string> Addresses { get; set; }
         public IList<string> Emails { get; set; }
         public IList<string> Categories { get; set; }

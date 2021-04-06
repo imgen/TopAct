@@ -1,6 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using TopAct.Domain.Entities;
 using DalContact = TopAct.Infrastructure.Dal.Entities.Contact;
+using DalPhone = TopAct.Infrastructure.Dal.Entities.Phone;
 
 namespace TopAct.Domain
 {
@@ -17,7 +21,12 @@ namespace TopAct.Domain
                 OrganisationName = contact.OrganisationName,
                 WebsiteUrl = contact.WebsiteUrl,
                 Notes = contact.Notes,
-                Phones = contact.Phones.Select(x => x.PhoneNo).ToList(),
+                Phones = contact.Phones
+                    .Select(x => new DalPhone
+                    {
+                        PhoneNo = x.PhoneNo,
+                        Type = x.Type.ToString()
+                    }).ToList(),
                 Addresses = contact.Addresses.Select(x => x.AddressName).ToList(),
                 Emails = contact.Emails.Select(x => x.EmailAddress).ToList(),
                 Categories = contact.Categories.Select(x => x.CategoryName).ToList(),
@@ -35,13 +44,23 @@ namespace TopAct.Domain
                 dalContact.OrganisationName,
                 dalContact.WebsiteUrl,
                 dalContact.Notes,
-                dalContact.Phones.Select(x => new Phone(x)).ToList(),
+                dalContact.Phones.Select(x => new Phone(x.PhoneNo, Enum.Parse<PhoneType>(x.Type))).ToList(),
                 dalContact.Addresses.Select(x => new Address(x)).ToList(),
                 dalContact.Emails.Select(x => new Email(x)).ToList(),
                 dalContact.Categories.Select(x => new Category(x)).ToList(),
                 dalContact.Tags.Select(x => new Tag(x)).ToList(),
                 dalContact.CustomFields.Select(x => new CustomField(x.Key, x.Value)).ToList()
             );
+        }
+
+        public static IList<Contact> ToDomains(this IList<DalContact> dals)
+        {
+            return dals.Select(ToDomain).ToArray();
+        }
+
+        public static IList<DalContact> ToDals(this IList<Contact> domains)
+        {
+            return domains.Select(ToDal).ToArray();
         }
     }
 }

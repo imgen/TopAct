@@ -2,6 +2,14 @@
 using System.Collections.Generic;
 using TopAct.Domain.Contracts;
 using TopAct.Domain.Rules;
+using MixERP.Net.VCards;
+using MixERP.Net.VCards.Types;
+using System.Linq;
+using MixERP.Net.VCards.Models;
+using TopAct.Domain.DtoModels;
+using System.IO;
+using Microsoft.Extensions.Logging;
+using System.ComponentModel.DataAnnotations;
 
 namespace TopAct.Domain.Entities
 {
@@ -35,8 +43,11 @@ namespace TopAct.Domain.Entities
             );
         }
 
+        [Required]
         public ContactId Id { get; private set; }
+        [Required]
         public string FirstName { get; private set; }
+        [Required]
         public string LastName { get; private set; }
         public string OrganisationName { get; private set; }
         public string WebsiteUrl { get; private set; }
@@ -57,7 +68,7 @@ namespace TopAct.Domain.Entities
             string organisationName,
             string websiteUrl,
             string notes,
-            IList<string> phones,
+            IList<PhoneRequestDto> phones,
             IList<string> addresses,
             IList<string> emails,
             IList<string> categories,
@@ -86,7 +97,7 @@ namespace TopAct.Domain.Entities
             string organisationName,
             string websiteUrl,
             string notes,
-            IList<string> phones,
+            IList<PhoneRequestDto> phones,
             IList<string> addresses,
             IList<string> emails,
             IList<string> categories,
@@ -138,6 +149,93 @@ namespace TopAct.Domain.Entities
             CheckRule(new ContactNameMustBeFilledRule(this));
             CheckRule(new ContactNotesMustBelow200CharsRule(this));
             CheckRule(new ContactWebSiteUrlMustBeValidRule(this));
+        }
+
+        public VCard ExportVCard(ClassificationType classificationType)
+        {
+            return new VCard
+            {
+                Version = VCardVersion.V4,
+                FirstName = FirstName,
+                LastName = LastName,
+                FormattedName = FullName,
+                Organization = OrganisationName,
+                Classification = classificationType,
+                Note = Notes,
+                Url = new Uri(WebsiteUrl),
+                Kind = Kind.Individual,
+                Categories = Categories.ToDtos().ToArray(),
+                CustomExtensions = CustomFields?
+                    .Select(x => new CustomExtension
+                    {
+                        Key = x.Key,
+                        Value = x.Value
+                    }
+                    ).ToArray(),
+                Telephones = Phones?
+                    .Select(x => new Telephone
+                    {
+                        Number = x.PhoneNo,
+                        Type = x.Type switch
+                        {
+                            PhoneType.Home => TelephoneType.Home,
+                            PhoneType.Mobile => TelephoneType.Cell,
+                            PhoneType.Work => TelephoneType.Work,
+                            _ => throw new InvalidDataException($"Invalid Phone Type")
+                        }
+                    }).ToArray(),
+                Emails = Emails?
+                    .Select(x => new MixERP.Net.VCards.Models.Email
+                    {
+                        EmailAddress = x.EmailAddress,
+                        Type = EmailType.Smtp
+                    }
+                    ).ToArray()
+                // TODO: export addresses
+            };
+        }
+
+        public static Contact ImportVCard(VCard vCard, Guid? contactId, ILogger<Contact> logger)
+        {
+            var fullName = vCard.FormattedName;
+            try
+            {
+                var contact = new Contact(new(contactId ?? new Guid()),
+                    vCard.FirstName,
+                    vCard.LastName,
+                    vCard.Organization,
+                    vCard.Url.ToString(),
+                    vCard.Note,
+                    vCard.Telephones?
+                        .Select(
+                            x => new Phone(x.Number, x.Type switch
+                            {
+                                TelephoneType.Cell => PhoneType.Mobile,
+                                TelephoneType.Home => PhoneType.Home,
+                                TelephoneType.Work => PhoneType.Work,
+                                _ => PhoneType.Home
+                            })
+                        ).ToArray() ?? Array.Empty<Phone>(),
+                    vCard.Addresses?.Select(x => new Address(x.FormatAddress())).ToArray() ??
+                        Array.Empty<Address>(),
+                    vCard.Emails?.Select(x => new Email(x.EmailAddress)).ToArray() ??
+                        Array.Empty<Email>(),
+                    vCard.Categories?.Select(x => new Category(x)).ToArray() ??
+                        Array.Empty<Category>(),
+                    Array.Empty<Tag>(),
+                    vCard.CustomExtensions?
+                        .Select(x => new CustomField(x.Key, x.Values.First())).ToArray() ??
+                        Array.Empty<CustomField>()
+                );
+
+                logger.LogInformation($"Successfully imported the VCard with name {fullName}");
+                return contact;
+            }
+            catch (Exception ex)
+            {
+                logger.LogWarning($"Cannot import VCard with name {fullName} due to error {ex}");
+                return null;
+            }
         }
     }
 }

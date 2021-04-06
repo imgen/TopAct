@@ -9,16 +9,16 @@ namespace TopAct.Domain
 {
     public static class DomainDtoMapper
     {
-        public static PhoneDto ToDto(this Phone phone) =>
-            new(phone?.PhoneNo, phone?.PhoneNo.FormatPhone());
+        public static PhoneResponseDto ToDto(this Phone phone) =>
+            new(phone.PhoneNo, phone.PhoneNo.FormatPhoneNo(), phone.Type);
         public static string ToDto(this Email entity) => entity?.EmailAddress;
         public static string ToDto(this Address entity) => entity?.AddressName;
         public static string ToDto(this Category entity) => entity?.CategoryName;
         public static string ToDto(this Tag entity) => entity?.TagName;
         public static Guid ToDto(this ContactId entity) => entity.Value;
 
-        public static IList<PhoneDto> ToDtos(this IList<Phone> entities) =>
-            entities?.Select(ToDto).ToArray() ?? Array.Empty<PhoneDto>();
+        public static IList<PhoneResponseDto> ToDtos(this IList<Phone> entities) =>
+            entities?.Select(ToDto).ToArray() ?? Array.Empty<PhoneResponseDto>();
         public static IList<string> ToDtos(this IList<Email> entities) =>
             entities?.Select(ToDto).ToArray() ?? Array.Empty<string>();
         public static IList<string> ToDtos(this IList<Address> entities) =>
@@ -30,14 +30,14 @@ namespace TopAct.Domain
         public static Dictionary<string, string> ToDtos(this IList<CustomField> entities) =>
             entities?.ToDictionary(x => x.Key, x => x.Value) ?? new();
 
-        public static Phone ToDomainPhone(this string dto) => new(dto);
+        public static Phone ToDomainPhone(this PhoneRequestDto dto) => new(dto.PhoneNo, dto.Type);
         public static Email ToDomainEmail(this string dto) => new(dto);
         public static Address ToDomainAddress(this string dto) => new(dto);
         public static Category ToDomainCategory(this string dto) => new(dto);
         public static Tag ToDomainTag(this string dto) => new(dto);
         public static CustomField ToDomainCustomField(this KeyValuePair<string, string> dto) => new(dto.Key, dto.Value);
 
-        public static IList<Phone> ToDomainPhones(this IList<string> dtos) =>
+        public static IList<Phone> ToDomainPhones(this IList<PhoneRequestDto> dtos) =>
             dtos?.Select(ToDomainPhone).ToArray() ?? Array.Empty<Phone>();
         public static IList<Email> ToDomainEmails(this IList<string> dtos) =>
             dtos?.Select(ToDomainEmail).ToArray() ?? Array.Empty<Email>();

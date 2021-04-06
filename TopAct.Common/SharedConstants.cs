@@ -12,5 +12,9 @@
         public const string DefaultDbFilePath = @"C:\db\topact.db";
 
         public const int PhoneNoLength = 8;
+
+        public const string VCardContentType = "text/vcard";
+        public static readonly string[] ValidVCardContentTypes = { VCardContentType, "text/x-vcard" };
+        public static readonly string[] VCardFileExtensions = { ".vcard", ".vcf" };
     }
 }

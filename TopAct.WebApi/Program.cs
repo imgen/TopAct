@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
 using System;
+using TopAct.Infrastructure.Dal;
 
 namespace TopAct.WebApi
 {
@@ -31,7 +33,9 @@ namespace TopAct.WebApi
             try
             {
                 Log.Information("Starting host...");
-                CreateHostBuilder(args).Build().Run();
+                var host = CreateHostBuilder(args).Build();
+                MigrateDatabase(host.Services);
+                host.Run();
                 return 0;
             }
             catch (Exception ex)
@@ -52,5 +56,13 @@ namespace TopAct.WebApi
                 {
                     webBuilder.UseStartup<Startup>();
                 });
+
+        public static void MigrateDatabase(IServiceProvider serviceProvider)
+        {
+            using var scope = serviceProvider.CreateScope();
+            var services = scope.ServiceProvider;
+            var migrator = services.GetRequiredService<DbMigrator>();
+            migrator.Migrate();
+        }
     }
 }

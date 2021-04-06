@@ -1,6 +1,6 @@
 ﻿using LiteDB;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using TopAct.Common;
 using TopAct.Domain.Contracts;
 using TopAct.Domain.Entities;
@@ -30,7 +30,7 @@ namespace TopAct.Domain.Repositories
         {
             using var db = _dbContext.GetDatabase();
             var collection = db.GetCollection<DalContact>();
-            var dalContacts = contacts.Select(x => x.ToDal()).ToArray();
+            var dalContacts = contacts.ToDals();
             collection.InsertBulk(dalContacts);
         }
 
@@ -71,8 +71,8 @@ namespace TopAct.Domain.Repositories
             if (phone.IsNullOrWhiteSpace() is false &&
                 phone.IsValidPhoneNo())
             {
-                collection.EnsureIndex(x => x.Phones);
-                query = query.Where(x => x.Phones.Contains(phone));
+                collection.EnsureIndex(x => x.PhoneNumbers);
+                query = query.Where(x => x.PhoneNumbers.Contains(phone));
             }
 
             if (email.IsNullOrWhiteSpace() is false &&
@@ -108,8 +108,7 @@ namespace TopAct.Domain.Repositories
 
             return query
                 .ToArray()
-                .Select(x => x.ToDomain())
-                .ToList();
+                .ToDomains();
         }
 
         public void Save(Contact contact)
@@ -125,6 +124,22 @@ namespace TopAct.Domain.Repositories
             var collection = db.GetCollection<DalContact>();
             var id = new BsonValue(contact.Id.Value);
             collection.Delete(id);
+        }
+
+        public IList<Contact> GetAllByIds(IList<Guid> contactIds)
+        {
+            using var db = _dbContext.GetDatabase();
+            var collection = db.GetCollection<DalContact>();
+            var query = collection.Query();
+            query = query.Where(x => contactIds.Contains(x.Id));
+            return query.ToArray().ToDomains();
+        }
+
+        public void UpsertAll(IList<Contact> importedContacts)
+        {
+            using var db = _dbContext.GetDatabase();
+            var collection = db.GetCollection<DalContact>();
+            collection.Upsert(importedContacts.ToDals());
         }
     }
 }

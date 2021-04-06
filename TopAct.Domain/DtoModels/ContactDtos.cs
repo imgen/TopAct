@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TopAct.Domain.Entities;
 
 namespace TopAct.Domain.DtoModels
 {
@@ -9,7 +10,7 @@ namespace TopAct.Domain.DtoModels
         string OrganisationName,
         string WebsiteUrl,
         string Notes,
-        IList<string> Phones,
+        IList<PhoneRequestDto> Phones,
         IList<string> Addresses,
         IList<string> Emails,
         IList<string> Categories,
@@ -24,7 +25,7 @@ namespace TopAct.Domain.DtoModels
         string OrganisationName,
         string WebsiteUrl,
         string Notes,
-        IList<PhoneDto> Phones,
+        IList<PhoneResponseDto> Phones,
         IList<string> Addresses,
         IList<string> Emails,
         IList<string> Categories,
@@ -56,7 +57,7 @@ namespace TopAct.Domain.DtoModels
         string Category
     );
 
-    public record PhoneDto(string PhoneNo, string FormattedPhoneNo);
+    public record PhoneResponseDto(string PhoneNo, string FormattedPhoneNo, PhoneType PhoneType);
 
     public record QueryContactsItemDto(
         Guid Id,
@@ -65,7 +66,7 @@ namespace TopAct.Domain.DtoModels
         string OrganisationName,
         string WebsiteUrl,
         string Notes,
-        IList<PhoneDto> Phones,
+        IList<PhoneResponseDto> Phones,
         IList<string> Emails,
         IList<string> Categories,
         IList<string> Tags
@@ -76,4 +77,12 @@ namespace TopAct.Domain.DtoModels
         Dictionary<string, IList<Guid>> TagMap
     );
 
+    public record PhoneRequestDto(string PhoneNo, PhoneType Type);
+
+    public record UploadVCardResponseDto(
+            int TotalVCardContactCount,
+            int UpdatedContactCount,
+            int CreatedContactCount,
+            int SkippedVCardContactCount
+        );
 }
