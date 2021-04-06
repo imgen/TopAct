@@ -14,7 +14,7 @@ namespace TopAct.Infrastructure.Dal
             _dbContext = dbContext;
         }
 
-        public const int CurrentAppVersion = 2;
+        public const int CurrentAppVersion = 3;
 
         public void Migrate()
         {
@@ -27,6 +27,7 @@ namespace TopAct.Infrastructure.Dal
                 var newDbVersion = CurrentAppVersion switch
                 {
                     2 => MigrateToVersion2(db, currentDbVersion),
+                    3 => MigrateToVersion3(db, currentDbVersion),
                     _ => throw new NotImplementedException()
                 };
                 collection.DeleteAll();
@@ -48,6 +49,23 @@ namespace TopAct.Infrastructure.Dal
             return new DbVersion
             {
                 Id = 2
+            };
+        }
+
+        private static DbVersion MigrateToVersion3(LiteDatabase db, int currentDbVersion)
+        {
+            if (currentDbVersion == 1)
+            {
+                MigrateToVersion2(db, currentDbVersion);
+            }
+            var collection = db.GetCollection<Contact>();
+            var contacts = collection.Query().ToArray();
+
+            collection.Update(contacts);
+
+            return new DbVersion
+            {
+                Id = 3
             };
         }
     }

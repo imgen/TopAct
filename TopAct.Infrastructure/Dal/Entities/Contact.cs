@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace TopAct.Infrastructure.Dal.Entities
 {
@@ -13,7 +14,17 @@ namespace TopAct.Infrastructure.Dal.Entities
         public string WebsiteUrl { get; set; }
         public string Notes { get; set; }
 
-        public IList<Phone> Phones { get; set; }
+        private IList<Phone> _phones;
+        public IList<Phone> Phones
+        {
+            get => _phones;
+            set
+            {
+                _phones = value;
+                PhoneNumbers = value?.Select(x => x.PhoneNo).ToArray() ??
+                    Array.Empty<string>();
+            }
+        }
         public IList<string> PhoneNumbers { get; set; }
         public IList<string> Addresses { get; set; }
         public IList<string> Emails { get; set; }
