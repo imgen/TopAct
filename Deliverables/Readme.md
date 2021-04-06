@@ -4,6 +4,12 @@
 [Description of the link](https://github.com/imgen/TopAct "TopAct")
 
 ## How to run
+First for `HTTPS` to work, might need to trust the root certificate. Run below command
+
+	dotnet dev-certs https -v
+
+Secondly this project requires the latest editon of VS 2019 and .NET 5 SDK
+
 Open `TopAct.sln` in VS and press `F5` or `Ctrl + F5`. It will launch `Swagger UI` page. Click `Authorize` button, in the popup dialog, don't forget to tick the `api` scope checkbox. Then just click the `Authorize` button at the bottom left, it should succeed. Then click `Close` button to close the popup. 
 After authorization, just play with the UI using `Swagger UI`. 
 
