@@ -24,7 +24,7 @@ namespace TopAct.Domain.DtoModels
         string OrganisationName,
         string WebsiteUrl,
         string Notes,
-        IList<string> Phones,
+        IList<PhoneDto> Phones,
         IList<string> Addresses,
         IList<string> Emails,
         IList<string> Categories,
@@ -56,6 +56,8 @@ namespace TopAct.Domain.DtoModels
         string Category
     );
 
+    public record PhoneDto(string PhoneNo, string FormattedPhoneNo);
+
     public record QueryContactsItemDto(
         Guid Id,
         string FirstName,
@@ -63,6 +65,9 @@ namespace TopAct.Domain.DtoModels
         string OrganisationName,
         string WebsiteUrl,
         string Notes,
+        IList<PhoneDto> Phones,
+        IList<string> Emails,
+        IList<string> Categories,
         IList<string> Tags
     );
 
@@ -70,4 +75,5 @@ namespace TopAct.Domain.DtoModels
         Dictionary<Guid, QueryContactsItemDto> AllContacts,
         Dictionary<string, IList<Guid>> TagMap
     );
+
 }

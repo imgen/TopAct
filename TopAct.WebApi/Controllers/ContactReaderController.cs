@@ -1,10 +1,7 @@
-﻿using IdentityServer4.Extensions;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using TopAct.Domain.Commands;
 using TopAct.Domain.DtoModels;
@@ -26,10 +23,10 @@ namespace TopAct.WebApi.Controllers
 
         [HttpGet]
         public async Task<QueryContactsResponseDto> GetContacts(
-            [FromBody] QueryContactsRequestDto request
+            [FromQuery] QueryContactsRequestDto request
         )
         {
-            var contacts = await _mediator.Send(
+            return await _mediator.Send(
                 new QueryContactsCommand(
                     request.Name,
                     request.Phone,
@@ -39,28 +36,7 @@ namespace TopAct.WebApi.Controllers
                     request.Category
                 )
             );
-            if (contacts.Any() is false)
-            {
-                return new(new(), new());
-            }
-            var allTags = contacts
-                .Where(x => x.Tags is not null)
-                .SelectMany(x => x.Tags)
-                .Distinct()
-                .ToArray();
-            var tagMap = new Dictionary<string, IList<Guid>>();
-            foreach (var tag in allTags)
-            {
-                tagMap[tag] = contacts
-                    .Where(x => x.Tags.Contains(tag))
-                    .Select(x => x.Id)
-                    .ToList();
-            }
-            tagMap[""] = contacts
-                .Where(x => x.Tags.IsNullOrEmpty())
-                .Select(x => x.Id)
-                .ToList();
-            return new(contacts.ToDictionary(x => x.Id), tagMap);
+
         }
 
         /// <summary>

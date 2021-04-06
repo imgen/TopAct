@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using TopAct.Domain.Contracts;
 using TopAct.Domain.Rules;
 
@@ -63,7 +62,7 @@ namespace TopAct.Domain.Entities
             IList<string> emails,
             IList<string> categories,
             IList<string> tags,
-            IList<CustomField> customFields)
+            Dictionary<string, string> customFields)
         {
             return new Contact(
                 new ContactId(Guid.NewGuid()),
@@ -72,12 +71,12 @@ namespace TopAct.Domain.Entities
                 organisationName,
                 websiteUrl,
                 notes,
-                phones?.Select(x => new Phone(x)).ToList(),
-                addresses?.Select(x => new Address(x)).ToList(),
-                emails?.Select(x => new Email(x)).ToList(),
-                categories?.Select(x => new Category(x)).ToList(),
-                tags?.Select(x => new Tag(x)).ToList(),
-                customFields
+                phones.ToDomainPhones(),
+                addresses.ToDomainAddresses(),
+                emails.ToDomainEmails(),
+                categories.ToDomainCategories(),
+                tags.ToDomainTags(),
+                customFields.ToDomainCustomFields()
             );
         }
 
@@ -92,20 +91,21 @@ namespace TopAct.Domain.Entities
             IList<string> emails,
             IList<string> categories,
             IList<string> tags,
-            IList<CustomField> customFields)
+            Dictionary<string, string> customFields)
         {
-            CreateOrUpdate(Id,
+            CreateOrUpdate(
+                Id,
                 firstName,
                 lastName,
                 organisationName,
                 websiteUrl,
                 notes,
-                phones?.Select(x => new Phone(x)).ToList(),
-                addresses?.Select(x => new Address(x)).ToList(),
-                emails?.Select(x => new Email(x)).ToList(),
-                categories?.Select(x => new Category(x)).ToList(),
-                tags?.Select(x => new Tag(x)).ToList(),
-                customFields
+                phones.ToDomainPhones(),
+                addresses.ToDomainAddresses(),
+                emails.ToDomainEmails(),
+                categories.ToDomainCategories(),
+                tags.ToDomainTags(),
+                customFields.ToDomainCustomFields()
             );
         }
 

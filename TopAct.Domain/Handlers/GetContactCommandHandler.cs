@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using TopAct.Domain.Commands;
 using TopAct.Domain.Contracts;
@@ -36,12 +34,12 @@ namespace TopAct.Domain.Handlers
                     contact.OrganisationName,
                     contact.WebsiteUrl,
                     contact.Notes,
-                    contact.Phones?.Select(x => x.PhoneNo).ToArray() ?? Array.Empty<string>(),
-                    contact.Addresses?.Select(x => x.AddressName).ToArray() ?? Array.Empty<string>(),
-                    contact.Emails?.Select(x => x.EmailAddress).ToArray() ?? Array.Empty<string>(),
-                    contact.Categories?.Select(x => x.CategoryName).ToArray() ?? Array.Empty<string>(),
-                    contact.Tags?.Select(x => x.TagName).ToArray() ?? Array.Empty<string>(),
-                    contact.CustomFields?.ToDictionary(x => x.Key, x => x.Value) ?? new()
+                    contact.Phones.ToDtos(),
+                    contact.Addresses.ToDtos(),
+                    contact.Emails.ToDtos(),
+                    contact.Categories.ToDtos(),
+                    contact.Tags.ToDtos(),
+                    contact.CustomFields.ToDtos()
                 )
             );
         }

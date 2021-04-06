@@ -5,11 +5,11 @@ using TopAct.Infrastructure.Dal.Entities;
 
 namespace TopAct.Infrastructure.Dal
 {
-    public class Migrator
+    public class DbMigrator
     {
         private readonly DbContext _dbContext;
 
-        public Migrator(DbContext dbContext)
+        public DbMigrator(DbContext dbContext)
         {
             _dbContext = dbContext;
         }

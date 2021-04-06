@@ -9,7 +9,7 @@ namespace TopAct.Domain.Entities
         public Phone(string phoneNo)
         {
             PhoneNo = phoneNo;
-            CheckRule(new PhoneNoMustBeOf8DigitsRule(this));
+            CheckRule(new PhoneNoMustBeOfFixNumberOfDigitsRule(this));
         }
     }
 }

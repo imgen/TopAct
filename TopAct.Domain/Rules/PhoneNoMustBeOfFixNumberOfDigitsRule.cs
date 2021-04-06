@@ -1,19 +1,19 @@
-﻿using System.Linq;
+﻿using TopAct.Common;
 using TopAct.Domain.Contracts;
 using TopAct.Domain.Entities;
 
 namespace TopAct.Domain.Rules
 {
-    public class PhoneNoMustBeOf8DigitsRule : IBusinessRule
+    public class PhoneNoMustBeOfFixNumberOfDigitsRule : IBusinessRule
     {
         private readonly Phone _phone;
 
-        public PhoneNoMustBeOf8DigitsRule(Phone phone)
+        public PhoneNoMustBeOfFixNumberOfDigitsRule(Phone phone)
         {
             _phone = phone;
         }
 
-        public string Message => "The phone number must be of 8 digits";
+        public string Message => $"The phone number must be of {SharedConstants.PhoneNoLength} digits";
 
         public bool IsBroken()
         {

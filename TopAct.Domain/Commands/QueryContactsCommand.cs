@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using TopAct.Domain.Contracts;
+﻿using TopAct.Domain.Contracts;
 using TopAct.Domain.DtoModels;
 
 namespace TopAct.Domain.Commands
@@ -10,5 +9,5 @@ namespace TopAct.Domain.Commands
         string WebsiteUrl,
         string Notes,
         string Category) :
-        CommandBase<IList<QueryContactsItemDto>>;
+        CommandBase<QueryContactsResponseDto>;
 }

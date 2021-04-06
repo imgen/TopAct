@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
+using TopAct.Domain;
 using TopAct.Domain.Commands;
 using TopAct.Domain.DtoModels;
 using static TopAct.WebApi.ControllerUtils;
@@ -46,7 +48,10 @@ namespace TopAct.WebApi.Controllers
                     request.OrganisationName,
                     request.WebsiteUrl,
                     request.Notes,
-                    request.Phones ?? Array.Empty<string>(),
+                    request.Phones?
+                        .Select(x => new PhoneDto(x, x.FormatPhone()))
+                        .ToArray() ??
+                        Array.Empty<PhoneDto>(),
                     request.Addresses ?? Array.Empty<string>(),
                     request.Emails ?? Array.Empty<string>(),
                     request.Categories ?? Array.Empty<string>(),

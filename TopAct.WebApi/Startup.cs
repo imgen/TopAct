@@ -18,8 +18,13 @@ namespace TopAct.WebApi
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            var dbContext = new DbContext(configuration.GetDbFilePath());
-            var migrator = new Migrator(dbContext);
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            var dbContext = new DbContext(Configuration.GetDbFilePath());
+            var migrator = new DbMigrator(dbContext);
             migrator.Migrate();
         }
 
@@ -113,7 +118,7 @@ namespace TopAct.WebApi
                     // Additional OAuth settings (See https://github.com/swagger-api/swagger-ui/blob/v3.10.0/docs/usage/oauth2.md)
                     c.OAuthClientId(ClientId);
                     c.OAuthClientSecret(ApiSecret);
-                    c.OAuthAppName("topact");
+                    c.OAuthAppName(AppName);
                 });
             }
 

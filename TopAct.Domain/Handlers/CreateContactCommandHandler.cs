@@ -31,8 +31,6 @@ namespace TopAct.Domain.Handlers
                 command.Categories,
                 command.Tags,
                 command.CustomFields
-                    ?.Select(x => new CustomField(x.Key, x.Value))
-                    .ToList()
             );
 
             _contactRepository.Add(contact);

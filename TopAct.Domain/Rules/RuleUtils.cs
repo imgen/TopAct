@@ -12,10 +12,11 @@ namespace TopAct.Domain.Rules
             return regex.IsMatch(s);
         }
 
+
         public static bool IsValidPhoneNo(this string phone)
         {
             return !phone.IsNullOrWhiteSpace() &&
-                phone.Length == 8 &&
+                phone.Length == SharedConstants.PhoneNoLength &&
                 phone.All(char.IsDigit);
         }
     }
