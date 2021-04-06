@@ -31,11 +31,16 @@ To view it visually, one can use this awesome [Online Schema Viewer](https://nav
 	Domain Drive Design
 	
 ## How long it took me?
- Research DDD and other libraries to use: about 1 hour
- Authentication/Authorization: 3 hours. Hit two brick walls with `IdentityServer4` and `Swagger UI` integration with `IdentityServer4`. Each took me about 1 hour to fix. 
- Learning DDD: 1 ~ 2 hours
+ Research `DDD` and other libraries to use: about 1 hour
+ 
+ Authentication/Authorization: 3 hours. Hit two brick wall: one with `IdentityServer4` and another with `Swagger UI` integration with `IdentityServer4`. Each took me about 1 hour to fix.
+ 
+ Learning the `DDD` way: 1 ~ 2 hours
+ 
  Learning Blazor + Syncfusion controls suite: 2 hours
+ 
  Coding: around 10 hours
+ 
  Total: 17 ~ 18 hours
  
  ## Unit tests?
