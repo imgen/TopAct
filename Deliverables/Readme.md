@@ -30,8 +30,9 @@ See `Deliverables/Schema.json`
  Research DDD and other libraries to use: about 1 hour
  Authentication/Authorization: 3 hours. Hit two brick walls with `IdentityServer4` and `Swagger UI` integration with `IdentityServer4`. Each took me about 1 hour to fix. 
  Learning DDD: 1 ~ 2 hours
+ Learning Blazor + Syncfusion controls suite: 2 hours
  Coding: around 10 hours
- Total: 15 ~ 16 hours
+ Total: 17 ~ 18 hours
  
  ## Unit tests?
  Almost none. I have a test called `AuthenticationTests` which does test the authentication part. But that requires the project running. It just showcases I know how to write unit tests. 
