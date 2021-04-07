@@ -34,7 +34,7 @@ To view it visually, one can use this awesome [Online Schema Viewer](https://nav
 ## How long it took me?
  Research `DDD` and other libraries to use: about 1 hour
  
- Authentication/Authorization: 3 hours. Hit two brick wall: one with `IdentityServer4` and another with `Swagger UI` integration with `IdentityServer4`. Each took me about 1 hour to fix.
+ Authentication/Authorization: 3 hours. Hit two brick walls: one with `IdentityServer4` and another with `Swagger UI` integration with `IdentityServer4`. Each took me about 1 hour to punch through, :(.
  
  Learning the `DDD` way: 1 ~ 2 hours
  
