@@ -1,6 +1,4 @@
-﻿using System;
-using TopAct.Domain.Entities;
-using TopAct.Common;
+﻿using TopAct.Domain.Entities;
 using TopAct.Domain.Contracts;
 
 namespace TopAct.Domain.Rules

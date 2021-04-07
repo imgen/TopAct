@@ -1,6 +1,8 @@
 ﻿using LiteDB;
 using System;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using TopAct.Infrastructure.Dal.Entities;
 
 namespace TopAct.Infrastructure.Dal
@@ -16,26 +18,37 @@ namespace TopAct.Infrastructure.Dal
 
         public const int CurrentAppVersion = 3;
 
+        private static MethodInfo GetMigrationMethod(int version)
+        {
+            var migrationMethodName = $"MigrateDbToVersion{version}";
+            var migrationMethod = typeof(DbMigrator).GetMethod(
+                    migrationMethodName,
+                    BindingFlags.NonPublic | BindingFlags.Public |
+                    BindingFlags.Instance | BindingFlags.Static
+                );
+            return migrationMethod ?? throw new Exception($"Cannot find the DB migration method {migrationMethodName}");
+        }
+
         public void Migrate()
         {
             using var db = _dbContext.GetDatabase();
             var collection = db.GetCollection<DbVersion>();
             var dbVersion = collection.Query().ToArray().FirstOrDefault();
-            int currentDbVersion = dbVersion is null ? 1 : dbVersion.Id;
+            int currentDbVersion = dbVersion is null ? 1 : dbVersion.Version;
+            if (currentDbVersion <= 0)
+            {
+                currentDbVersion = 1;
+            }
             if (currentDbVersion < CurrentAppVersion)
             {
-                var newDbVersion = CurrentAppVersion switch
-                {
-                    2 => MigrateToVersion2(db, currentDbVersion),
-                    3 => MigrateToVersion3(db, currentDbVersion),
-                    _ => throw new NotImplementedException()
-                };
-                collection.DeleteAll();
-                collection.Insert(newDbVersion);
+                var migrationMethod = GetMigrationMethod(CurrentAppVersion);
+                var parameters = new object[] { db, currentDbVersion };
+                migrationMethod.Invoke(this, parameters);
+                collection.Upsert(new DbVersion { Id = 1, Version = CurrentAppVersion });
             }
         }
 
-        private static DbVersion MigrateToVersion2(LiteDatabase db, int _)
+        private static void MigrateDbToVersion2(LiteDatabase db, int _)
         {
             var collection = db.GetCollection<Contact>();
             var contacts = collection.Query().ToArray();
@@ -45,28 +58,27 @@ namespace TopAct.Infrastructure.Dal
             }
 
             collection.Update(contacts);
-
-            return new DbVersion
-            {
-                Id = 2
-            };
         }
 
-        private static DbVersion MigrateToVersion3(LiteDatabase db, int currentDbVersion)
+        private static void InvokePreviousMigrationIfNecessary(LiteDatabase db, int currentDbVersion,
+            [CallerMemberName] string callingMethodName = null)
         {
-            if (currentDbVersion == 1)
+            var callerVersion = int.Parse(callingMethodName.Where(char.IsDigit).ToArray());
+            int callerVersionMinusOne = callerVersion - 1;
+            if (callerVersionMinusOne > currentDbVersion)
             {
-                MigrateToVersion2(db, currentDbVersion);
+                var method = GetMigrationMethod(callerVersionMinusOne);
+                method.Invoke(null, new object[] { db, currentDbVersion });
             }
+        }
+
+        private static void MigrateDbToVersion3(LiteDatabase db, int currentDbVersion)
+        {
+            InvokePreviousMigrationIfNecessary(db, currentDbVersion);
             var collection = db.GetCollection<Contact>();
             var contacts = collection.Query().ToArray();
 
             collection.Update(contacts);
-
-            return new DbVersion
-            {
-                Id = 3
-            };
         }
     }
 }
