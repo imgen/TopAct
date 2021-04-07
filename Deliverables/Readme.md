@@ -12,7 +12,8 @@ Secondly this project requires the latest editon of `VS 2019` and `.NET 5 SDK`
 
 Open `TopAct.sln` in VS and press <kbd>F5</kbd> or <kbd>Ctrl</kbd> + <kbd>F5</kbd>. 
 
-It will launch `Swagger UI` page. Click <kbd>Authorize</kbd> button, in the popup dialog, don't forget to tick the `api` scope checkbox. Then just click the  <kbd>Authorize</kbd> button at the bottom left, it should retrieve the authorization token from `IdentityServer4`. Then click <kbd>Close</kbd> button to close the popup. 
+It will launch `Swagger UI` page. Click <kbd>Authorize</kbd> button at the top right corner, then in the popup dialog, don't forget to tick the `api` scope checkbox. Then just click the  <kbd>Authorize</kbd> button at the bottom left, it should retrieve the authorization token from `IdentityServer4`. Then click <kbd>Close</kbd> button to close the popup. 
+
 After authorization, just play with the UI using `Swagger UI`. 
 
 ## Configuration
