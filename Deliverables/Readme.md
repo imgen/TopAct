@@ -20,7 +20,7 @@ After authorization, just play with the UI using `Swagger UI`.
 Not much, just one. In [TopAct.WebApi/appsettings.json](https://github.com/imgen/TopAct/blob/master/TopAct.WebApi/appsettings.json), there is a configuration entry `DbFilePath`
 
 ## Sequence diagram
-See [Deliverables/Sequence diagram.pdf](https://github.com/imgen/TopAct/blob/master/Deliverables/Sequence%20diagram.pdf)
+See [Deliverables/Sequence diagram.pdf](https://github.com/imgen/TopAct/blob/master/Deliverables/Sequence%20diagram.pdf) or See [Deliverables/Sequence diagram.svg](https://github.com/imgen/TopAct/blob/master/Deliverables/Sequence%20diagram.svg)
 
 ## Schema
 See [Deliverables/Schema.json](https://github.com/imgen/TopAct/blob/master/Deliverables/schema.json) which is the JSON Schema of the `Contact` models
