@@ -29,7 +29,7 @@ To view it visually, one can use this awesome [Online Schema Viewer](https://nav
 
 ## Architecture
 
-	Domain Drive Design
+`Domain Driven Design`
 	
 ## How long it took me?
  Research `DDD` and other libraries to use: about 1 hour
