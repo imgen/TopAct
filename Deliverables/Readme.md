@@ -25,7 +25,7 @@ See [Deliverables/Sequence diagram.pdf](https://github.com/imgen/TopAct/blob/mas
 ## Schema
 See [Deliverables/Schema.json](https://github.com/imgen/TopAct/blob/master/Deliverables/schema.json) which is the JSON Schema of the `Contact` models
 
-To view it visually, one can use this awesome [Online Schema Viewer](https://navneethg.github.io/jsonschemaviewer/). *Remember*: need to click the big blue dots to expand the model trees
+To view it visually, one can use this awesome [Online Schema Viewer](https://navneethg.github.io/jsonschemaviewer/). **Remember**: need to click the big blue dots to expand the model trees
 
 ## Architecture
 
