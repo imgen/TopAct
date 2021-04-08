@@ -4,11 +4,11 @@ using TopAct.Domain.Entities;
 
 namespace TopAct.Domain.Rules
 {
-    public class PhoneNoMustBeOfFixNumberOfDigitsRule : IBusinessRule
+    public class PhoneNoMustBeOfFixedNumberOfDigitsRule : IBusinessRule
     {
         private readonly Phone _phone;
 
-        public PhoneNoMustBeOfFixNumberOfDigitsRule(Phone phone)
+        public PhoneNoMustBeOfFixedNumberOfDigitsRule(Phone phone)
         {
             _phone = phone;
         }

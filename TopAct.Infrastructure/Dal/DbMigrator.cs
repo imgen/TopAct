@@ -48,6 +48,21 @@ namespace TopAct.Infrastructure.Dal
             }
         }
 
+        private static void InvokePreviousMigrationIfNecessary(
+            LiteDatabase db,
+            int currentDbVersion,
+            [CallerMemberName] string callingMethodName = null
+        )
+        {
+            var callerVersion = int.Parse(callingMethodName.Where(char.IsDigit).ToArray());
+            int callerVersionMinusOne = callerVersion - 1;
+            if (callerVersionMinusOne > currentDbVersion)
+            {
+                var method = GetMigrationMethod(callerVersionMinusOne);
+                method.Invoke(null, new object[] { db, currentDbVersion });
+            }
+        }
+
         private static void MigrateDbToVersion2(LiteDatabase db, int _)
         {
             var collection = db.GetCollection<Contact>();
@@ -58,18 +73,6 @@ namespace TopAct.Infrastructure.Dal
             }
 
             collection.Update(contacts);
-        }
-
-        private static void InvokePreviousMigrationIfNecessary(LiteDatabase db, int currentDbVersion,
-            [CallerMemberName] string callingMethodName = null)
-        {
-            var callerVersion = int.Parse(callingMethodName.Where(char.IsDigit).ToArray());
-            int callerVersionMinusOne = callerVersion - 1;
-            if (callerVersionMinusOne > currentDbVersion)
-            {
-                var method = GetMigrationMethod(callerVersionMinusOne);
-                method.Invoke(null, new object[] { db, currentDbVersion });
-            }
         }
 
         private static void MigrateDbToVersion3(LiteDatabase db, int currentDbVersion)

@@ -208,23 +208,34 @@ namespace TopAct.Domain.Entities
                     vCard.Note,
                     vCard.Telephones?
                         .Select(
-                            x => new Phone(x.Number, x.Type switch
-                            {
-                                TelephoneType.Cell => PhoneType.Mobile,
-                                TelephoneType.Home => PhoneType.Home,
-                                TelephoneType.Work => PhoneType.Work,
-                                _ => PhoneType.Home
-                            })
-                        ).ToArray() ?? Array.Empty<Phone>(),
-                    vCard.Addresses?.Select(x => new Address(x.FormatAddress())).ToArray() ??
+                            x => new Phone(
+                                x.Number,
+                                x.Type switch
+                                {
+                                    TelephoneType.Cell => PhoneType.Mobile,
+                                    TelephoneType.Home => PhoneType.Home,
+                                    TelephoneType.Work => PhoneType.Work,
+                                    _ => PhoneType.Home
+                                }
+                            )
+                        ).ToArray() ??
+                        Array.Empty<Phone>(),
+                    vCard.Addresses?
+                        .Select(x => new Address(x.FormatAddress()))
+                        .ToArray() ??
                         Array.Empty<Address>(),
-                    vCard.Emails?.Select(x => new Email(x.EmailAddress)).ToArray() ??
+                    vCard.Emails?
+                        .Select(x => new Email(x.EmailAddress))
+                        .ToArray() ??
                         Array.Empty<Email>(),
-                    vCard.Categories?.Select(x => new Category(x)).ToArray() ??
+                    vCard.Categories?
+                        .Select(x => new Category(x))
+                        .ToArray() ??
                         Array.Empty<Category>(),
                     Array.Empty<Tag>(),
                     vCard.CustomExtensions?
-                        .Select(x => new CustomField(x.Key, x.Values.First())).ToArray() ??
+                        .Select(x => new CustomField(x.Key, x.Values.First()))
+                        .ToArray() ??
                         Array.Empty<CustomField>()
                 );
 

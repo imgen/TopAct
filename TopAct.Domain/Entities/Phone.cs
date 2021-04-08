@@ -11,7 +11,7 @@ namespace TopAct.Domain.Entities
         {
             PhoneNo = phoneNo;
             Type = type;
-            CheckRule(new PhoneNoMustBeOfFixNumberOfDigitsRule(this));
+            CheckRule(new PhoneNoMustBeOfFixedNumberOfDigitsRule(this));
         }
     }
 }
