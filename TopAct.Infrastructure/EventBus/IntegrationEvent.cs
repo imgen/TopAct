@@ -11,8 +11,8 @@ namespace TopAct.Infrastructure.EventBus
 
         protected IntegrationEvent(Guid id, DateTime occurredOn)
         {
-            this.Id = id;
-            this.OccurredOn = occurredOn;
+            Id = id;
+            OccurredOn = occurredOn;
         }
     }
 }

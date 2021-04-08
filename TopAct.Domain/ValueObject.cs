@@ -89,9 +89,9 @@ namespace TopAct.Domain
 
         private IEnumerable<PropertyInfo> GetProperties()
         {
-            if (this._properties == null)
+            if (_properties == null)
             {
-                this._properties = GetType()
+                _properties = GetType()
                     .GetProperties(BindingFlags.Instance | BindingFlags.Public)
                     .Where(p => p.GetCustomAttribute(typeof(IgnoreMemberAttribute)) == null)
                     .ToList();
@@ -100,19 +100,19 @@ namespace TopAct.Domain
                 // !Attribute.IsDefined(p, typeof(IgnoreMemberAttribute))).ToList();
             }
 
-            return this._properties;
+            return _properties;
         }
 
         private IEnumerable<FieldInfo> GetFields()
         {
-            if (this._fields == null)
+            if (_fields == null)
             {
-                this._fields = GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
+                _fields = GetType().GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)
                     .Where(p => p.GetCustomAttribute(typeof(IgnoreMemberAttribute)) == null)
                     .ToList();
             }
 
-            return this._fields;
+            return _fields;
         }
 
         private int HashValue(int seed, object value)

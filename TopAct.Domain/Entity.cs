@@ -25,10 +25,10 @@ namespace TopAct.Domain
         {
             _domainEvents ??= new List<IDomainEvent>();
 
-            this._domainEvents.Add(domainEvent);
+            _domainEvents.Add(domainEvent);
         }
 
-        protected void CheckRule(IBusinessRule rule)
+        protected static void CheckRule(IBusinessRule rule)
         {
             if (rule.IsBroken())
             {

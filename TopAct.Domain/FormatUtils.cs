@@ -9,7 +9,9 @@ namespace TopAct.Domain
         public static string FormatPhoneNo(this string s)
         {
             const int HalfLength = SharedConstants.PhoneNoLength / 2;
-            return s.IsValidPhoneNo() ? s[0..HalfLength] + "-" + s[HalfLength..] : s;
+            return s.IsValidPhoneNo() ?
+                s[0..HalfLength] + "-" + s[HalfLength..] :
+                s;
         }
 
         public static string FormatAddress(this Address address)

@@ -18,37 +18,54 @@ namespace TopAct.Domain
         public static Guid ToDto(this ContactId entity) => entity.Value;
 
         public static IList<PhoneResponseDto> ToDtos(this IList<Phone> entities) =>
-            entities?.Select(ToDto).ToArray() ?? Array.Empty<PhoneResponseDto>();
+            entities?.Select(ToDto).ToArray() ??
+            Array.Empty<PhoneResponseDto>();
         public static IList<string> ToDtos(this IList<Email> entities) =>
-            entities?.Select(ToDto).ToArray() ?? Array.Empty<string>();
+            entities?.Select(ToDto).ToArray() ??
+            Array.Empty<string>();
         public static IList<string> ToDtos(this IList<Address> entities) =>
-            entities?.Select(ToDto).ToArray() ?? Array.Empty<string>();
+            entities?.Select(ToDto).ToArray() ??
+            Array.Empty<string>();
         public static IList<string> ToDtos(this IList<Category> entities) =>
-            entities?.Select(ToDto).ToArray() ?? Array.Empty<string>();
+            entities?.Select(ToDto).ToArray() ??
+            Array.Empty<string>();
         public static IList<string> ToDtos(this IList<Tag> entities) =>
-            entities?.Select(ToDto).ToArray() ?? Array.Empty<string>();
-        public static Dictionary<string, string> ToDtos(this IList<CustomField> entities) =>
-            entities?.ToDictionary(x => x.Key, x => x.Value) ?? new();
+            entities?.Select(ToDto).ToArray() ??
+            Array.Empty<string>();
+        public static Dictionary<string, string> ToDtos(
+                this IList<CustomField> entities
+            ) =>
+            entities?.ToDictionary(x => x.Key, x => x.Value) ??
+            new();
 
-        public static Phone ToDomainPhone(this PhoneRequestDto dto) => new(dto.PhoneNo, dto.Type);
+        public static Phone ToDomainPhone(this PhoneRequestDto dto) =>
+            new(dto.PhoneNo, dto.Type);
         public static Email ToDomainEmail(this string dto) => new(dto);
         public static Address ToDomainAddress(this string dto) => new(dto);
         public static Category ToDomainCategory(this string dto) => new(dto);
         public static Tag ToDomainTag(this string dto) => new(dto);
-        public static CustomField ToDomainCustomField(this KeyValuePair<string, string> dto) => new(dto.Key, dto.Value);
+        public static CustomField ToDomainCustomField(
+                this KeyValuePair<string, string> dto
+            ) => new(dto.Key, dto.Value);
 
         public static IList<Phone> ToDomainPhones(this IList<PhoneRequestDto> dtos) =>
-            dtos?.Select(ToDomainPhone).ToArray() ?? Array.Empty<Phone>();
+            dtos?.Select(ToDomainPhone).ToArray() ??
+            Array.Empty<Phone>();
         public static IList<Email> ToDomainEmails(this IList<string> dtos) =>
-            dtos?.Select(ToDomainEmail).ToArray() ?? Array.Empty<Email>();
+            dtos?.Select(ToDomainEmail).ToArray() ??
+            Array.Empty<Email>();
         public static IList<Address> ToDomainAddresses(this IList<string> dtos) =>
-            dtos?.Select(ToDomainAddress).ToArray() ?? Array.Empty<Address>();
+            dtos?.Select(ToDomainAddress).ToArray() ??
+            Array.Empty<Address>();
         public static IList<Category> ToDomainCategories(this IList<string> dtos) =>
-            dtos?.Select(ToDomainCategory).ToArray() ?? Array.Empty<Category>();
+            dtos?.Select(ToDomainCategory).ToArray() ??
+            Array.Empty<Category>();
         public static IList<Tag> ToDomainTags(this IList<string> dtos) =>
-            dtos?.Select(ToDomainTag).ToArray() ?? Array.Empty<Tag>();
+            dtos?.Select(ToDomainTag).ToArray() ??
+            Array.Empty<Tag>();
         public static IList<CustomField> ToDomainCustomFields(this Dictionary<string, string> dtos) =>
-            dtos?.Select(ToDomainCustomField).ToArray() ?? Array.Empty<CustomField>();
+            dtos?.Select(ToDomainCustomField).ToArray() ??
+            Array.Empty<CustomField>();
 
         public static QueryContactsResponseDto ToQueryContactsDto(this IList<Contact> contacts)
         {
